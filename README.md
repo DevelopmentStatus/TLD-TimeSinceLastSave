@@ -1,5 +1,5 @@
 # Time Since Last Save
-Displays the the amount of time has passed since you last saved when you go to exit the game.
+Displays the the amount of time that has passed since you have last saved the game when you go to the exit menu.
 
 <img width="2378" height="1262" alt="image" src="https://github.com/user-attachments/assets/883d7d68-9506-4ef1-a302-73c76e155546" />
 
