@@ -52,7 +52,6 @@ namespace TimeSinceLastSaveMod
                 var currentRequest = __instance.GetCurrentConfirmationRequest();
                 if (currentRequest == null) return;
 
-                // Ensure we only modify the "Quit Game" confirmation popup
                 if (currentRequest.m_ConfirmationType == Panel_Confirmation.ConfirmationType.QuitGame)
                 {
                     if (_lastSaveRealTime < 0) return;
@@ -63,7 +62,6 @@ namespace TimeSinceLastSaveMod
                     int minutes = Mathf.FloorToInt((elapsedSeconds % 3600) / 60);
                     int seconds = Mathf.FloorToInt(elapsedSeconds % 60);
 
-                    // Dynamic string formatting
                     string timeDisplay;
                     if (hours > 0)
                     {
@@ -78,7 +76,6 @@ namespace TimeSinceLastSaveMod
                         timeDisplay = $"{seconds}s";
                     }
 
-                    // TLD UI supports basic rich text/color tags
                     string injection = $"\n\nLast saved: {timeDisplay} ago";
 
                     if (__instance.m_CurrentGroup != null && __instance.m_CurrentGroup.m_MessageLabel != null)
