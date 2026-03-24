@@ -1,4 +1,4 @@
-﻿using MelonLoader;
+using MelonLoader;
 using HarmonyLib;
 using Il2Cpp;
 using Il2CppTLD.UI;
@@ -19,14 +19,15 @@ namespace TimeSinceLastSaveMod
             MelonLogger.Msg("Time Since Last Save mod loaded.");
         }
 
-        // Hook: Reset timer when a new save is created (Auto or Manual)
-        [HarmonyPatch(typeof(SaveGameSystem), nameof(SaveGameSystem.SaveGame))]
-        internal class Patch_SaveGameSystem_SaveGame
+        // This catches EVERY save (Vanilla, Modded, Autosave, etc.) 
+        // because they all trigger the save icon animation.
+        [HarmonyPatch(typeof(Panel_SaveIcon), nameof(Panel_SaveIcon.StartSaveIconAnimation))]
+        internal class Patch_Panel_SaveIcon_StartSaveIconAnimation
         {
             private static void Postfix()
             {
                 _lastSaveRealTime = Time.realtimeSinceStartup;
-                MelonLogger.Msg("Save detected. Timer reset.");
+                MelonLogger.Msg("Save icon triggered. Timer reset.");
             }
         }
 
@@ -52,6 +53,7 @@ namespace TimeSinceLastSaveMod
                 var currentRequest = __instance.GetCurrentConfirmationRequest();
                 if (currentRequest == null) return;
 
+                // Ensure we only modify the "Quit Game" confirmation popup
                 if (currentRequest.m_ConfirmationType == Panel_Confirmation.ConfirmationType.QuitGame)
                 {
                     if (_lastSaveRealTime < 0) return;
